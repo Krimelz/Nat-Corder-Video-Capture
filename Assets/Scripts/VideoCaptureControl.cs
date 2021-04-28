@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class VideoCaptureControl : MonoBehaviour
     public Button stop;
     public Transform content;
     public GameObject pathPrefab;
+
+    public Text videoCount;
 
     private void Start()
     {
@@ -30,6 +33,12 @@ public class VideoCaptureControl : MonoBehaviour
         go.GetComponentInChildren<Text>().text = path;
 
         EnableStartButton();
+        SetPathesText();
+    }
+
+    private void SetPathesText()
+    {
+        videoCount.text = cameraRecorder.GetAllVideoNames().Length.ToString();
     }
 
     private void EnableStartButton()
