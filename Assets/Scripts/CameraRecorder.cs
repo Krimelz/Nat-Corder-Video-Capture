@@ -7,6 +7,7 @@ using NatSuite.Recorders.Clocks;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using System.IO;
+using System;
 
 [RequireComponent(typeof(Camera))]
 public class CameraRecorder : MonoBehaviour
@@ -37,14 +38,23 @@ public class CameraRecorder : MonoBehaviour
         return await recorder.FinishWriting();
     }
 
-    public string[] GetAllVideoNames()
+    public string GetAllVideoNamesJson()
     {
 #if UNITY_EDITOR
         string dataPath = Application.dataPath;
         dataPath = dataPath.Substring(0, dataPath.Length - "/Assets".Length);
-        return Directory.GetFiles(dataPath, "*.mp4");
 #elif UNITY_IOS || UNITY_ANDROID
-        return Directory.GetFiles(Application.persistentDataPath, "*.mp4");
+        string dataPath = Application.persistentDataPath;
 #endif
+        VideoList list = new VideoList();
+        list.videoNames = Directory.GetFiles(dataPath, "*.mp4");
+
+        return JsonUtility.ToJson(list, true);
+    }
+
+    [Serializable]
+    private class VideoList
+    {
+        public string[] videoNames;
     }
 }

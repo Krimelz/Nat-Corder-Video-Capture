@@ -12,8 +12,6 @@ public class VideoCaptureControl : MonoBehaviour
     public Transform content;
     public GameObject pathPrefab;
 
-    public Text videoCount;
-
     private void Start()
     {
         EnableStartButton();
@@ -33,12 +31,12 @@ public class VideoCaptureControl : MonoBehaviour
         go.GetComponentInChildren<Text>().text = path;
 
         EnableStartButton();
-        SetPathesText();
+        DebugVideoNames();
     }
 
-    private void SetPathesText()
+    private void DebugVideoNames()
     {
-        videoCount.text = cameraRecorder.GetAllVideoNames().Length.ToString();
+        Debug.Log(cameraRecorder.GetAllVideoNamesJson());
     }
 
     private void EnableStartButton()
