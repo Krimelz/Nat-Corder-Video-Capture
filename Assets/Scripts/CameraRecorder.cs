@@ -51,10 +51,10 @@ public class CameraRecorder : MonoBehaviour
 
         return JsonUtility.ToJson(list, true);
     }
+}
 
-    [Serializable]
-    private class VideoList
-    {
-        public string[] videoNames;
-    }
+[Serializable]
+public class VideoList
+{
+    public string[] videoNames;
 }
