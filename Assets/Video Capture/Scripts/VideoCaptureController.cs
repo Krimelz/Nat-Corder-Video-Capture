@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VideoCaptureControl : MonoBehaviour
+public class VideoCaptureController : MonoBehaviour
 {
     public CameraRecorder cameraRecorder;
-    public Button start;
-    public Button stop;
+    public Button startButton;
+    public Button stopButton;
     public Transform content;
     public GameObject pathPrefab;
 
@@ -36,7 +36,7 @@ public class VideoCaptureControl : MonoBehaviour
     {
         VideoList list = JsonUtility.FromJson<VideoList>(cameraRecorder.GetAllVideoNamesJson());
 
-        foreach (string path in list.videoNames)
+        foreach (string path in list.videos)
         {
             AddVideoNameToList(path);
         }
@@ -50,13 +50,13 @@ public class VideoCaptureControl : MonoBehaviour
 
     private void EnableStartButton()
     {
-        start.gameObject.SetActive(true);
-        stop.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(true);
+        stopButton.gameObject.SetActive(false);
     }
 
     private void EnableStopButton()
     {
-        start.gameObject.SetActive(false);
-        stop.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(false);
+        stopButton.gameObject.SetActive(true);
     }
 }

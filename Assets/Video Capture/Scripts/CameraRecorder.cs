@@ -4,7 +4,6 @@ using UnityEngine;
 using NatSuite.Recorders;
 using NatSuite.Recorders.Inputs;
 using NatSuite.Recorders.Clocks;
-using UnityEngine.UI;
 using System.Threading.Tasks;
 using System.IO;
 using System;
@@ -19,6 +18,14 @@ public class CameraRecorder : MonoBehaviour
     private CameraInput cameraInput;
     private MP4Recorder recorder;
     private RealtimeClock clock;
+
+#if UNITY_EDITOR
+    private string savePath = "D:/";
+#elif UNITY_ANDROID
+    private string savePath = Application.persistentDataPath;
+#elif UNITY_IOS
+    private string savePath = Application.persistentDataPath;
+#endif
 
     private void Start()
     {
@@ -35,26 +42,36 @@ public class CameraRecorder : MonoBehaviour
     public async Task<string> StopRecording()
     {
         cameraInput.Dispose();
-        return await recorder.FinishWriting();
+
+        string path = await recorder.FinishWriting();
+        string newPath = Path.Combine(savePath, GetVideoName(path));
+        
+        File.Move(path, newPath);
+
+        return newPath;
     }
 
     public string GetAllVideoNamesJson()
     {
-#if UNITY_EDITOR
-        string dataPath = Application.dataPath;
-        dataPath = dataPath.Substring(0, dataPath.Length - "/Assets".Length);
-#elif UNITY_IOS || UNITY_ANDROID
-        string dataPath = Application.persistentDataPath;
-#endif
         VideoList list = new VideoList();
-        list.videoNames = Directory.GetFiles(dataPath, "*.mp4");
+        list.videos = Directory.GetFiles(savePath, "*.mp4");
 
         return JsonUtility.ToJson(list, true);
+    }
+
+    private string GetVideoName(string path)
+    {
+        int lastIndex = path.LastIndexOf('\\');
+        int length = path.Length - lastIndex - 1;
+
+        string videoName = path.Substring(lastIndex + 1, length);
+
+        return videoName;
     }
 }
 
 [Serializable]
 public class VideoList
 {
-    public string[] videoNames;
+    public string[] videos;
 }
