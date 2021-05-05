@@ -29,10 +29,11 @@ public class VideoCaptureController : MonoBehaviour
         string path = await cameraRecorder.StopRecording();
 
         AddVideoToList(path);
+        SendVideoJson();
         EnableStartButton();
     }
 
-    private void SendVideoJson()
+    public void SendVideoJson()
     {
         string json = cameraRecorder.GetAllVideosJson();
         DeviceMessenger.SendMessageToDevice(json);

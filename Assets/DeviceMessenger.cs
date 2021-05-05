@@ -16,7 +16,7 @@ public static class DeviceMessenger
         Debug.Log(json);
 
 #if UNITY_ANDROID
-        AndroidJavaClass instance = new AndroidJavaClass("ai.replika.unity.bridge.UnityBridge");
+        AndroidJavaClass instance = new AndroidJavaClass("com.awesomeapp.bridge.UnityBridge");
         instance.CallStatic("sendMessageToAndroid", json);
 #endif
 
