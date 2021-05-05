@@ -28,8 +28,14 @@ public class VideoCaptureController : MonoBehaviour
     {
         string path = await cameraRecorder.StopRecording();
 
-        AddVideoNameToList(path);
+        AddVideoToList(path);
         EnableStartButton();
+    }
+
+    private void SendVideoJson()
+    {
+        string json = cameraRecorder.GetAllVideosJson();
+        DeviceMessenger.SendMessageToDevice(json);
     }
 
     private void LoadVideoNamesFromJson()
@@ -38,11 +44,11 @@ public class VideoCaptureController : MonoBehaviour
 
         foreach (string path in list.videos)
         {
-            AddVideoNameToList(path);
+            AddVideoToList(path);
         }
     }
 
-    private void AddVideoNameToList(string path)
+    private void AddVideoToList(string path)
     {
         GameObject go = Instantiate(pathPrefab, content);
         go.GetComponentInChildren<Text>().text = path;

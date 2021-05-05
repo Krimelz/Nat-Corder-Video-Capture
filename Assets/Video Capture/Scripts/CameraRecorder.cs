@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NatSuite.Recorders;
 using NatSuite.Recorders.Inputs;
@@ -7,14 +5,12 @@ using NatSuite.Recorders.Clocks;
 using System.Threading.Tasks;
 using System.IO;
 using System;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Camera))]
 public class CameraRecorder : MonoBehaviour
 {
     public Vector2Int resolution;
     public float fps;
-    public Text permissionText;
 
     new private Camera camera;
     private CameraInput cameraInput;
@@ -32,8 +28,6 @@ public class CameraRecorder : MonoBehaviour
     private void Start()
     {
         camera = GetComponent<Camera>();
-
-        CheckWrite();
     }
 
     public void StartRecording()
@@ -51,9 +45,6 @@ public class CameraRecorder : MonoBehaviour
         string newPath = Path.Combine(savePath, GetVideoName(path));
 
         File.Move(path, newPath);
-
-        NativeGallery.Permission p =  NativeGallery.SaveVideoToGallery(newPath, "Video Capture", GetVideoName(path));
-        permissionText.text = p.ToString();
 
         return newPath;
     }
@@ -74,12 +65,6 @@ public class CameraRecorder : MonoBehaviour
         string videoName = path.Substring(lastIndex + 1, length);
 
         return videoName;
-    }
-
-    private void CheckWrite()
-    {
-        NativeGallery.Permission p = NativeGallery.CheckPermission(NativeGallery.PermissionType.Write);
-        permissionText.text = p.ToString();
     }
 }
 
