@@ -33,8 +33,7 @@ public class CameraRecorder : MonoBehaviour
     {
         camera = GetComponent<Camera>();
 
-        NativeGallery.Permission p = NativeGallery.CheckPermission(NativeGallery.PermissionType.Write);
-        permissionText.text = p.ToString();
+        CheckWrite();
     }
 
     public void StartRecording()
@@ -54,13 +53,12 @@ public class CameraRecorder : MonoBehaviour
         File.Move(path, newPath);
 
         NativeGallery.Permission p =  NativeGallery.SaveVideoToGallery(newPath, "Video Capture", GetVideoName(path));
-
         permissionText.text = p.ToString();
 
         return newPath;
     }
 
-    public string GetAllVideoNamesJson()
+    public string GetAllVideosJson()
     {
         VideoList list = new VideoList();
         list.videos = Directory.GetFiles(savePath, "*.mp4");
@@ -76,6 +74,12 @@ public class CameraRecorder : MonoBehaviour
         string videoName = path.Substring(lastIndex + 1, length);
 
         return videoName;
+    }
+
+    private void CheckWrite()
+    {
+        NativeGallery.Permission p = NativeGallery.CheckPermission(NativeGallery.PermissionType.Write);
+        permissionText.text = p.ToString();
     }
 }
 

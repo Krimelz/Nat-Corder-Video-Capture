@@ -34,7 +34,7 @@ public class VideoCaptureController : MonoBehaviour
 
     private void LoadVideoNamesFromJson()
     {
-        VideoList list = JsonUtility.FromJson<VideoList>(cameraRecorder.GetAllVideoNamesJson());
+        VideoList list = JsonUtility.FromJson<VideoList>(cameraRecorder.GetAllVideosJson());
 
         foreach (string path in list.videos)
         {
