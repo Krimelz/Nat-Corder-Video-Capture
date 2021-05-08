@@ -17,16 +17,20 @@ public class CameraRecorder : MonoBehaviour
     private MP4Recorder recorder;
     private RealtimeClock clock;
 
+    private string savePath;
+
+    private void Awake()
+    {
 #if UNITY_EDITOR
-    private string savePath = "D:/";
-#elif UNITY_ANDROID
-    private string savePath = Application.persistentDataPath;
-#elif UNITY_IOS
-    private string savePath = Application.persistentDataPath;
+        savePath = Application.persistentDataPath;
+#elif UNITY_IOS || UNITY_ANDROID
+        savePath = Application.persistentDataPath;
 #endif
+    }
 
     private void Start()
     {
+        
         camera = GetComponent<Camera>();
     }
 
@@ -42,11 +46,8 @@ public class CameraRecorder : MonoBehaviour
         cameraInput.Dispose();
 
         string path = await recorder.FinishWriting();
-        string newPath = Path.Combine(savePath, GetVideoName(path));
-
-        File.Move(path, newPath);
-
-        return newPath;
+        
+        return path;
     }
 
     public string GetAllVideosJson()
@@ -55,16 +56,6 @@ public class CameraRecorder : MonoBehaviour
         list.videos = Directory.GetFiles(savePath, "*.mp4");
 
         return JsonUtility.ToJson(list, true);
-    }
-
-    private string GetVideoName(string path)
-    {
-        int lastIndex = path.LastIndexOf('\\');
-        int length = path.Length - lastIndex - 1;
-
-        string videoName = path.Substring(lastIndex + 1, length);
-
-        return videoName;
     }
 }
 

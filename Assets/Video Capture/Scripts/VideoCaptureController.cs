@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class VideoCaptureController : MonoBehaviour
 {
@@ -11,9 +12,11 @@ public class VideoCaptureController : MonoBehaviour
     public Button stopButton;
     public Transform content;
     public GameObject pathPrefab;
+    public Text pathText;
 
     private void Start()
     {
+        pathText.text = Application.persistentDataPath;
         LoadVideoNamesFromJson();
         EnableStartButton();
     }
@@ -28,8 +31,15 @@ public class VideoCaptureController : MonoBehaviour
     {
         string path = await cameraRecorder.StopRecording();
 
+        var permission = NativeGallery.CheckPermission(NativeGallery.PermissionType.Write);
+
+        if (permission == NativeGallery.Permission.Granted)
+        {
+            NativeGallery.SaveVideoToGallery(path, "Videos", DateTime.Now.Ticks.ToString() + ".mp4");
+        }
+
         AddVideoToList(path);
-        SendVideoJson();
+        //SendVideoJson();
         EnableStartButton();
     }
 

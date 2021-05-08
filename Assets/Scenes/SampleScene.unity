@@ -583,7 +583,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolution: {x: 1080, y: 1920}
   fps: 30
-  permissionText: {fileID: 1115462772}
 --- !u!1 &1115462770
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,8 +617,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -235}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -0.000011444, y: -235}
+  m_SizeDelta: {x: 354.9999, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1115462772
 MonoBehaviour:
@@ -891,3 +890,4 @@ MonoBehaviour:
   content: {fileID: 1637808352}
   pathPrefab: {fileID: 7079945759939980536, guid: 7b25688759ed4d64e8c4cd874e4f4cd5,
     type: 3}
+  pathText: {fileID: 1115462772}
